@@ -1,0 +1,57 @@
+# https://www.youtube.com/watch?v=RcxvrhQKv8I
+# https://www.youtube.com/watch?v=Kxp5h8tXdFE
+
+@hostname = http://localhost:3000
+
+
+GET {{hostname}}
+
+
+###
+POST {{hostname}}/signup HTTP/1.1
+Content-Type: application/json
+
+{
+	"email": "bowser@gmail.com",
+	"password": "123456"
+}
+
+
+###
+POST {{hostname}}/login HTTP/1.1
+Content-Type: application/json
+
+{
+	"email": "Peach@gmail.com",
+	"password": "somePassword"
+}
+
+###
+
+###
+
+###
+
+###
+
+###
+
+###
+
+###
+
+###
+
+###
+
+###
+
+###
+
+###
+
+###
+
+###
+
+
