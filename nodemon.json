@@ -1,5 +1,0 @@
-{
-	"watch": ["src/"],
-	"ignore": [],
-	"exec": "node app.js"
-}

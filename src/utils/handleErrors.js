@@ -13,12 +13,12 @@ export default function handleErrors(error) {
 	}
 
 	// login errors
-	if (error.message.includes("The password is incorrect")) {
+	if (error.message.includes("That email is not registered")) {
 		errors["email"] = error.message;
 	}
 
-	if (error.message.includes("That email is not registered")) {
-		errors["email"] = error.message;
+	if (error.message.includes("The password is incorrect")) {
+		errors["password"] = error.message;
 	}
 
 	console.log(errors.email, errors.password);

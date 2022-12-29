@@ -30,9 +30,7 @@ const userSchema = new mySchema(
 
 // pre: fire a callback function before a document(user in this example) is saved to the database
 userSchema.pre("save", async function (next) {
-	console.log(
-		"Mongoose 'PRE SAVE' hook: hashing password prior to saving to Mongo DB"
-	);
+	console.log("Mongoose 'PRE SAVE' hook: hashing password prior to saving to Mongo DB");
 
 	const salt = await bcrypt.genSalt();
 	this.password = await bcrypt.hash(this.password, salt);
@@ -53,10 +51,10 @@ userSchema.post("save", function (document, next) {
 });
 
 userSchema.statics.login = async function (email, password) {
-	const user = await User.findOne({ email });
+	const user = await User.findOne({ email }).lean();
 	if (user) {
-		const auth = await bcrypt.compare(password, user.password);
-		if (auth) {
+		const passwordIsCorrect = await bcrypt.compare(password, user.password);
+		if (passwordIsCorrect) {
 			console.log("Successfully logged in");
 			return user;
 		}

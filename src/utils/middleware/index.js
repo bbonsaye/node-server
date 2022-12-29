@@ -1,4 +1,3 @@
-import handleErrors from "./handleErrors.js";
-import createToken from "./createToken.js";
+import requireUserAuth from "./requireUserAuthMiddleware.js";
 
-export { handleErrors, createToken };
+export { requireUserAuth };

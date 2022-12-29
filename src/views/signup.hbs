@@ -1,13 +1,21 @@
 {{!  }}
-<form action="/signup" method="POST">
+<form id="signup">
 	<h2>Sign up</h2>
-	<label for="email" placeholder="your email">Email:
-		<input type="email" name="email" required />
-	</label>
+
+		<label for="email" placeholder="your email">Email:
+			<input type="email" name="email" required />
+		</label>
 	<div class="error email"></div>
-	<label for="password">Password:
-		<input type="password" name="password" required />
-	</label>
+
+		<label for="password">Password:
+			<input type="password" name="password" required />
+		</label>
 	<div class="error password"></div>
+		
+		<label for="password-check">Password check
+			<input type="password" name="password-check" required />
+		</label>
+	<div class="error password-check"></div>
+	
 	<button type="submit">Sign up</button>
 </form>
