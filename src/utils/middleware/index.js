@@ -1,3 +1,3 @@
 import requireUserAuth from "./requireUserAuthMiddleware.js";
-
-export { requireUserAuth };
+import saveOriginalUrl from "./saveOriginalUrlMiddleware.js";
+export { requireUserAuth, saveOriginalUrl };

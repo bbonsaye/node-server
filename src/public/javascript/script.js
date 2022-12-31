@@ -32,9 +32,7 @@ form.addEventListener("submit", async (event) => {
 				passwordError.textContent = data.errors["password"];
 			}
 
-			if (data.user) {
-				window.location.assign("back");
-			}
+			data.returnTo ? window.location.assign(data.returnTo) : window.location.assign("/");
 		} catch (error) {
 			console.log("front-end log in try/catch error");
 		}

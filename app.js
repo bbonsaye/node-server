@@ -19,14 +19,13 @@ import smoothieRoutes from "./src/routes/smoothieRoutes.js";
 // -----------------------------------------------------
 // middleware imports
 import isUserLoggedIn from "./src/utils/middleware/isUserLoggedInMiddleware.js";
+import saveOriginalUrl from "./src/utils/middleware/saveOriginalUrlMiddleware.js";
 
 //
 // -----------------------------------------------------
 
 // TODO: put all errors in one place. Does it make sense to
 // take out the errors for the UserSchema and put them in handleErrors.js?
-
-// TODO: if user is coming to /login from /smoothies, after login, it should redirect to smoothies
 
 //
 // -----------------------------------------------------
@@ -60,6 +59,8 @@ app.use(express.urlencoded({ extended: true }));
 // for incoming json data
 app.use(express.json());
 app.use(cookieParser());
+
+app.use("*", isUserLoggedIn);
 
 //
 // -----------------------------------------------------
@@ -95,8 +96,6 @@ mongoose
 //
 // -----------------------------------------------------
 // routes;
-
-app.use("*", isUserLoggedIn);
 
 app.get("/", (req, res) => {
 	res.render("home", { tapTitle: "Home" });

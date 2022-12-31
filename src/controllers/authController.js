@@ -3,19 +3,28 @@ import { handleErrors, createToken } from "../utils/index.js";
 // -----------------------------------
 
 function login_get(req, res) {
-	console.log(req.headers.referer);
 	res.render("login", { tapTitle: "Login" });
 }
 
 async function login_post(req, res) {
 	const { email, password } = req.body;
 
+	// extracting the query from the url
+	const urlAddress = req.rawHeaders.filter((header) => header.includes("?returnTo=/smoothies"));
+	let myURL;
+	let returnTo;
+	if (urlAddress.length) {
+		myURL = new URL(urlAddress[0]);
+		returnTo = myURL.searchParams.get("returnTo");
+	}
+
 	try {
 		const user = await User.login(email, password);
 		const token = createToken(user);
 		res.cookie("jwt", token, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 60 });
+
 		res.status(200);
-		res.json({ user: user._id });
+		res.json({ user: user._id, returnTo });
 	} catch (error) {
 		const errors = handleErrors(error);
 		res.status(400);

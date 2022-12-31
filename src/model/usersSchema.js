@@ -46,7 +46,6 @@ userSchema.pre("save", async function (next) {
 
 userSchema.post("save", function (document, next) {
 	console.log("Mongoose 'POST SAVE' hook: new user was created & saved");
-
 	next();
 });
 
