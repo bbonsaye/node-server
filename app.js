@@ -22,6 +22,14 @@ import isUserLoggedIn from "./src/utils/middleware/isUserLoggedInMiddleware.js";
 
 //
 // -----------------------------------------------------
+
+// TODO: put all errors in one place. Does it make sense to
+// take out the errors for the UserSchema and put them in handleErrors.js?
+
+// TODO: if user is coming to /login from /smoothies, after login, it should redirect to smoothies
+
+//
+// -----------------------------------------------------
 // hot module reload for browser
 
 // setting up livereload and connect-livereload modules
@@ -66,7 +74,10 @@ app.set("views", "src/views");
 // -----------------------------------------------------
 // database settings & app.listen()
 
-const dbURI = "mongodb+srv://testingMongoDB:testingMongoDB@delicious.f7hlt8l.mongodb.net/node-authorization";
+// "mongodb+srv://testingMongoDB:testingMongoDB@delicious.f7hlt8l.mongodb.net/node-authorization";
+// "mongodb://localhost:27017"
+
+const dbURI = "mongodb://127.0.0.1:27017/drinks";
 mongoose
 	.set("strictQuery", true)
 	.connect(dbURI)

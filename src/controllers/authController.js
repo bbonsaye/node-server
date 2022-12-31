@@ -3,6 +3,7 @@ import { handleErrors, createToken } from "../utils/index.js";
 // -----------------------------------
 
 function login_get(req, res) {
+	console.log(req.headers.referer);
 	res.render("login", { tapTitle: "Login" });
 }
 
@@ -55,8 +56,3 @@ export default {
 	signup_post,
 	logout_get,
 };
-
-// TODO: put all errors in one place. Does it make sense to
-// take out the errors for the UserSchema and put them in handleErrors.js?
-
-// TODO: if user is coming to /login from /smoothies, after login, it should redirect to smoothies

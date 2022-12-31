@@ -33,7 +33,7 @@ form.addEventListener("submit", async (event) => {
 			}
 
 			if (data.user) {
-				window.location.assign("/");
+				window.location.assign("back");
 			}
 		} catch (error) {
 			console.log("front-end log in try/catch error");
