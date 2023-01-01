@@ -1,3 +1,7 @@
+// process.env variables
+import * as dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 
 import livereload from "livereload";
@@ -19,7 +23,6 @@ import smoothieRoutes from "./src/routes/smoothieRoutes.js";
 // -----------------------------------------------------
 // middleware imports
 import isUserLoggedIn from "./src/utils/middleware/isUserLoggedInMiddleware.js";
-import saveOriginalUrl from "./src/utils/middleware/saveOriginalUrlMiddleware.js";
 
 //
 // -----------------------------------------------------
@@ -75,13 +78,9 @@ app.set("views", "src/views");
 // -----------------------------------------------------
 // database settings & app.listen()
 
-// "mongodb+srv://testingMongoDB:testingMongoDB@delicious.f7hlt8l.mongodb.net/node-authorization";
-// "mongodb://localhost:27017"
-
-const dbURI = "mongodb://127.0.0.1:27017/drinks";
 mongoose
 	.set("strictQuery", true)
-	.connect(dbURI)
+	.connect(process.env.DB_HOST)
 	.then((result) => {
 		console.log("Connected to MongoDB.");
 		console.log("App URL: http://localhost:3000\n");
@@ -89,8 +88,6 @@ mongoose
 	})
 	.catch((err) => {
 		console.log(err);
-		res.status(400);
-		res.send("Error, user not created");
 	});
 
 //
