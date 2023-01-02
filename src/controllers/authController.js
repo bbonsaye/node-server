@@ -1,6 +1,5 @@
 import User from "../model/usersSchema.js";
 import createToken from "../utils/createToken.js";
-import { handleErrors } from "../utils/middleware/errorHandlingMiddleware/index.js";
 // -----------------------------------
 
 function login_get(req, res) {
@@ -10,20 +9,12 @@ function login_get(req, res) {
 async function login_post(req, res) {
 	const { email, password, returnTo } = req.body;
 
-	console.log('returnTo', returnTo)
+	const user = await User.login(email, password);
+	const token = createToken(user);
 
-	try {
-		const user = await User.login(email, password);
-		const token = createToken(user);
-		res.cookie("jwt", token, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 60 });
-
-		res.status(200);
-		res.json({ user: user._id, returnTo });
-	} catch (error) {
-		const errors = handleErrors(error);
-		res.status(400);
-		res.json({ errors });
-	}
+	res.cookie("jwt", token, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 60 });
+	res.status(200);
+	res.json({ user: user._id, returnTo });
 }
 
 function signup_get(req, res) {
@@ -33,18 +24,12 @@ function signup_get(req, res) {
 async function signup_post(req, res) {
 	const { email, password } = req.body;
 
-	try {
-		const user = await User.create({ email, password });
-		const token = createToken(user);
+	const user = await User.create({ email, password });
+	const token = createToken(user);
 
-		res.cookie("jwt", token, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 60 });
-		res.status(201);
-		res.json({ user: user._id });
-	} catch (error) {
-		const errors = handleErrors(error);
-		res.status(400);
-		res.json({ errors });
-	}
+	res.cookie("jwt", token, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 60 });
+	res.status(201);
+	res.json({ user: user._id });
 }
 
 function logout_get(req, res) {

@@ -29,7 +29,7 @@ import smoothieRoutes from "./src/routes/smoothieRoutes.js";
 // -----------------------------------------------------
 // middleware imports
 import { isUserLoggedIn } from "./src/utils/middleware/authenticationMiddleware/index.js";
-
+import handleErrors from "./src/utils/middleware/errorHandlingMiddleware/handleErrors.js";
 //
 // -----------------------------------------------------
 // hot module reload for browser
@@ -101,3 +101,13 @@ app.get("/", (req, res) => {
 app.use(smoothieRoutes);
 app.use(authRoutes);
 app.use(errorRoutes);
+
+//
+// -----------------------------------------------------
+// error handling
+app.use((error, req, res, next) => {
+	const errors = handleErrors(error);
+	console.log(errors);
+	res.status(400);
+	res.json({ errors });
+});

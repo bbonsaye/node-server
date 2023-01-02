@@ -51,6 +51,7 @@ userSchema.post("save", function (document, next) {
 
 userSchema.statics.login = async function (email, password) {
 	const user = await User.findOne({ email }).lean();
+
 	if (user) {
 		const passwordIsCorrect = await bcrypt.compare(password, user.password);
 		if (passwordIsCorrect) {

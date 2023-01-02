@@ -20,7 +20,8 @@
 		"express-handlebars": "^6.0.6",
 		"jsonwebtoken": "^9.0.0",
 		"livereload": "^0.9.3",
-		"mongoose": "^6.8.1",
+		"mongoose": "^6.8.2",
+		"npm-check-updates": "^16.6.2",
 		"validator": "^13.7.0"
 	},
 	"type": "module"

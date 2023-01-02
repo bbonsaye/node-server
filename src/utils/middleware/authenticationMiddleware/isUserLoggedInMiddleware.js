@@ -9,7 +9,6 @@ export default function isUserLoggedIn(req, res, next) {
 		jwt.verify(jsonWebToken, process.env.JWT_SECRET, async (error, decodedToken) => {
 			//
 			if (error) {
-				console.log("inside isUserLoggedInMiddleware");
 				console.log(error.message);
 				res.locals.user = "";
 				next();

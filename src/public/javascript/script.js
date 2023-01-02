@@ -13,7 +13,7 @@ form.addEventListener("submit", async (event) => {
 
 	if (form.id === "login") {
 		console.log("LOGIN RESPONSE:");
-		const returnTo = event.target.returnTo.value || "";
+		const returnTo = event.target.returnTo.value;
 
 		try {
 			const res = await fetch("/login", {
@@ -34,7 +34,10 @@ form.addEventListener("submit", async (event) => {
 				passwordError.textContent = data.errors["password"];
 			}
 
-			data.returnTo ? window.location.assign(data.returnTo) : window.location.assign("/");
+			if (!data.errors) {
+				data.returnTo ? window.location.assign(data.returnTo) : window.location.assign("/");
+			}
+			//
 		} catch (error) {
 			console.log("front-end log in try/catch error");
 		}
