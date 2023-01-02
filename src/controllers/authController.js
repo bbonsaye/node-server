@@ -3,20 +3,13 @@ import { handleErrors, createToken } from "../utils/index.js";
 // -----------------------------------
 
 function login_get(req, res) {
-	res.render("login", { tapTitle: "Login" });
+	res.render("login", { tapTitle: "Login", returnTo: req.query.returnTo });
 }
 
 async function login_post(req, res) {
-	const { email, password } = req.body;
+	const { email, password, returnTo } = req.body;
 
-	// extracting the query from the url
-	const urlAddress = req.rawHeaders.filter((header) => header.includes("?returnTo=/smoothies"));
-	let myURL;
-	let returnTo;
-	if (urlAddress.length) {
-		myURL = new URL(urlAddress[0]);
-		returnTo = myURL.searchParams.get("returnTo");
-	}
+	console.log('returnTo', returnTo)
 
 	try {
 		const user = await User.login(email, password);
