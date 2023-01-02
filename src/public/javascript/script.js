@@ -10,10 +10,10 @@ form.addEventListener("submit", async (event) => {
 	// input field values
 	const email = event.target.email.value;
 	const password = event.target.password.value;
-	const returnTo = event.target.returnTo.value;
 
 	if (form.id === "login") {
 		console.log("LOGIN RESPONSE:");
+		const returnTo = event.target.returnTo.value || "";
 
 		try {
 			const res = await fetch("/login", {
