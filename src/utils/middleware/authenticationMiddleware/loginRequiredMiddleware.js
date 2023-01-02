@@ -1,10 +1,10 @@
 import jwt from "jsonwebtoken";
 
-export default function requireUserAuth(req, res, next) {
+export default function loginRequired(req, res, next) {
 	const jsonWebToken = req.cookies.jwt;
 
 	if (jsonWebToken) {
-		jwt.verify(jsonWebToken, "thisIsSoSecret", (error, decodedToken) => {
+		jwt.verify(jsonWebToken, process.env.JWT_SECRET, (error, decodedToken) => {
 			//
 			if (error) {
 				console.log(error.message);

@@ -2,9 +2,8 @@ import jwt from "jsonwebtoken";
 
 // 3 days in seconds
 const maxAge = 3 * 24 * 60 * 60;
-const secret = "thisIsSoSecret";
 
 export default function createToken(user) {
 	const id = user._id;
-	return jwt.sign({ id }, secret, { expiresIn: maxAge, algorithm: "HS256" });
+	return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: maxAge, algorithm: "HS256" });
 }

@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { requireUserAuth } from "../utils/middleware/index.js";
+import { loginRequired } from "../utils/middleware//authenticationMiddleware/index.js";
 import smoothiesController from "../controllers/smoothieController.js";
 
 const router = Router();
 
-router.get("/smoothies", requireUserAuth, smoothiesController.smoothies_get);
+router.get("/smoothies", loginRequired, smoothiesController.smoothies_get);
 
 export default router;

@@ -1,4 +1,4 @@
-import User from "../../model/usersSchema.js";
+import User from "../../../model/usersSchema.js";
 import jwt from "jsonwebtoken";
 
 export default function isUserLoggedIn(req, res, next) {
@@ -6,7 +6,7 @@ export default function isUserLoggedIn(req, res, next) {
 
 	if (jsonWebToken) {
 		//
-		jwt.verify(jsonWebToken, "thisIsSoSecret", async (error, decodedToken) => {
+		jwt.verify(jsonWebToken, process.env.JWT_SECRET, async (error, decodedToken) => {
 			//
 			if (error) {
 				console.log("inside isUserLoggedInMiddleware");

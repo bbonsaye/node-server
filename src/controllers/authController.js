@@ -1,5 +1,6 @@
 import User from "../model/usersSchema.js";
-import { handleErrors, createToken } from "../utils/index.js";
+import createToken from "../utils/createToken.js";
+import { handleErrors } from "../utils/middleware/errorHandlingMiddleware/index.js";
 // -----------------------------------
 
 function login_get(req, res) {

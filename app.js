@@ -1,3 +1,9 @@
+// TODO: put all errors in one place. Does it make sense to
+// take out the errors for the UserSchema and put them in handleErrors.js?
+
+// TODO: ass client-side form validation because it's a good UI practice.
+// -----------------------------------------------------
+
 // process.env variables
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -22,13 +28,7 @@ import smoothieRoutes from "./src/routes/smoothieRoutes.js";
 //
 // -----------------------------------------------------
 // middleware imports
-import isUserLoggedIn from "./src/utils/middleware/isUserLoggedInMiddleware.js";
-
-//
-// -----------------------------------------------------
-
-// TODO: put all errors in one place. Does it make sense to
-// take out the errors for the UserSchema and put them in handleErrors.js?
+import { isUserLoggedIn } from "./src/utils/middleware/authenticationMiddleware/index.js";
 
 //
 // -----------------------------------------------------
@@ -84,7 +84,7 @@ mongoose
 	.then((result) => {
 		console.log("Connected to MongoDB.");
 		console.log("App URL: http://localhost:3000\n");
-		app.listen(3000);
+		app.listen(process.env.PORT);
 	})
 	.catch((err) => {
 		console.log(err);
