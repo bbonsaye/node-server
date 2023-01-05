@@ -1,5 +1,5 @@
-import validator from "../es/index.js";
-console.log(validator);
+// import validator from "../es/index.js";
+// console.log(validator);
 
 const form = document.querySelector("#login") || document.querySelector("#signup");
 const emailError = document.querySelector(".error.email");
@@ -28,7 +28,6 @@ form?.addEventListener("submit", async (event) => {
 			});
 
 			const data = await res.json();
-
 			if (data.errors) {
 				console.log(data.errors);
 				emailError.textContent = data.errors["email"];
@@ -40,6 +39,7 @@ form?.addEventListener("submit", async (event) => {
 			}
 			//
 		} catch (error) {
+			console.log(error.message);
 			console.log("front-end log in try/catch error");
 		}
 	}
@@ -58,7 +58,9 @@ form?.addEventListener("submit", async (event) => {
 				headers: { "Content-Type": "application/json" },
 			});
 
+			console.log("-----------------------");
 			const data = await res.json();
+			console.log("-----------------------");
 			if (data.errors) {
 				emailError.textContent = data.errors.email;
 				passwordError.textContent = data.errors.password;

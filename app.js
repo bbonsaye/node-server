@@ -11,28 +11,32 @@ process.env.NODE_ENV
 	: dotenv.config({ path: `./environment/.env` });
 
 import express from "express";
-
-import livereload from "livereload";
-import connectLiveReload from "connect-livereload";
-
 import { engine } from "express-handlebars";
-import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 
-//
-// -----------------------------------------------------
-// route imports
-
-import authRoutes from "./src/routes/authRoutes.js";
-import errorRoutes from "./src/routes/errorRoutes.js";
-import smoothieRoutes from "./src/routes/smoothieRoutes.js";
-
-//
 // -----------------------------------------------------
 // middleware imports
+import livereload from "livereload";
+import connectLiveReload from "connect-livereload";
+import cookieParser from "cookie-parser";
 import { isUserLoggedIn } from "./src/utils/middleware/authenticationMiddleware/index.js";
-import { handleErrors } from "./src/utils/middleware/errorHandlingMiddleware/index.js";
-//
+
+// -----------------------------------------------------
+// route imports
+import homePageRoute from "./src/routes/homePageRoute.js";
+import authRoutes from "./src/routes/authRoutes.js";
+import pageNotFound from "./src/routes/pageNotFound.js";
+import smoothieRoutes from "./src/routes/smoothieRoutes.js";
+
+// -----------------------------------------------------
+// error handling middleware imports
+import {
+	errorLogger,
+	handleLoginErrors,
+	handleSignupErrors,
+	errorResponder,
+} from "./src/utils/middleware/errorHandlingMiddleware/index.js";
+
 // -----------------------------------------------------
 // hot module reload for browser
 
@@ -50,24 +54,6 @@ liveReloadServer.server.once("connection", () => {
 
 const app = express();
 
-//
-// -----------------------------------------------------
-// middleware usage
-
-//for adding the Livereload script to the response.
-app.use(connectLiveReload());
-
-app.use(express.static("src/public", { extensions: ["js"] }));
-
-// for incoming form data
-app.use(express.urlencoded({ extended: true }));
-// for incoming json data
-app.use(express.json());
-app.use(cookieParser());
-
-app.use("*", isUserLoggedIn);
-
-//
 // -----------------------------------------------------
 // template engine settings
 
@@ -76,7 +62,6 @@ app.set("view engine", ".hbs");
 // const viewFolder = await fs.realpath("./src/views");
 app.set("views", "src/views");
 
-//
 // -----------------------------------------------------
 // database settings & app.listen()
 
@@ -92,24 +77,32 @@ mongoose
 		console.log(err);
 	});
 
-//
+// -----------------------------------------------------
+// middleware usage
+
+//for adding the Livereload script to the response.
+app.use(connectLiveReload());
+
+app.use(express.static("src/public", { extensions: ["js"] }));
+// for incoming form data
+app.use(express.urlencoded({ extended: true }));
+// for incoming json data
+app.use(express.json());
+app.use(cookieParser());
+app.use("*", isUserLoggedIn);
+
 // -----------------------------------------------------
 // routes;
 
-app.get("/", (req, res) => {
-	res.render("home", { tapTitle: "Home" });
-});
-
+app.use(homePageRoute);
 app.use(smoothieRoutes);
 app.use(authRoutes);
-app.use(errorRoutes);
+app.use(pageNotFound);
 
-//
 // -----------------------------------------------------
-// error handling
-app.use((error, req, res, next) => {
-	const errors = handleErrors(error);
-	console.log(errors);
-	res.status(400);
-	res.json({ errors });
-});
+// error handling middleware
+
+app.use(errorLogger);
+app.use(handleLoginErrors);
+app.use(handleSignupErrors);
+app.use(errorResponder);

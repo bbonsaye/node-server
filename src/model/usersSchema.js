@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import isEmail from "validator/lib/isEmail.js";
 import bcrypt from "bcrypt";
+import { LoginError } from "../utils/middleware/errorHandlingMiddleware/index.js";
 
 class mySchema extends mongoose.Schema {}
 
@@ -30,9 +31,7 @@ const userSchema = new mySchema(
 
 // pre: fire a callback function before a document(user in this example) is saved to the database
 userSchema.pre("save", async function (next) {
-	console.log(
-		"Mongoose 'PRE SAVE' hook: hashing password prior to saving to Mongo DB"
-	);
+	console.log("Mongoose 'PRE SAVE' hook: hashing password prior to saving to Mongo DB");
 
 	const salt = await bcrypt.genSalt();
 	this.password = await bcrypt.hash(this.password, salt);
@@ -60,9 +59,11 @@ userSchema.statics.login = async function (email, password) {
 			console.log("Successfully logged in");
 			return user;
 		}
-		throw Error("The password is incorrect");
+		console.log("Within userSchema password");
+		throw new LoginError({ password: "The password is incorrect." });
 	}
-	throw Error("That email is not registered");
+	console.log("Within userSchema email");
+	throw new LoginError({ email: "That email isn't registered." });
 };
 
 // -----------------------------------------------------------
