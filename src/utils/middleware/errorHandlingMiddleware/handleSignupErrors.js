@@ -14,5 +14,5 @@ export default function handleSignupErrors(error, req, res, next) {
 			throw new SignupError({ [typeOfError]: message });
 		});
 	}
-	// next(error);
+	next(error);
 }
