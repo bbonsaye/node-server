@@ -18,6 +18,7 @@ import mongoose from "mongoose";
 // middleware imports
 import livereload from "livereload";
 import connectLiveReload from "connect-livereload";
+import favicon from "serve-favicon";
 import cookieParser from "cookie-parser";
 import { isUserLoggedIn } from "./src/utils/middleware/authenticationMiddleware/index.js";
 
@@ -54,6 +55,7 @@ const app = express();
 
 app.engine(".hbs", engine({ extname: ".hbs", helpers: {} }));
 app.set("view engine", ".hbs");
+
 // const viewFolder = await fs.realpath("./src/views");
 app.set("views", "src/views");
 
@@ -79,10 +81,16 @@ mongoose
 app.use(connectLiveReload());
 
 app.use(express.static("src/public", { extensions: ["js"] }));
+
 // for incoming form data
 app.use(express.urlencoded({ extended: true }));
 // for incoming json data
 app.use(express.json());
+
+// to ignore favicon requests, can be used for Rest Api
+// app.get('/favicon.ico', function(req, res) res.sendStatus(204));
+app.use(favicon("src/public/images/favicon.png"));
+
 app.use(cookieParser());
 app.use("*", isUserLoggedIn);
 
@@ -92,6 +100,9 @@ app.use("*", isUserLoggedIn);
 app.use(homePageRoute);
 app.use(smoothieRoutes);
 app.use(authRoutes);
+app.use("*", (req, res, next) => {
+	console.log(names);
+});
 app.use(pageNotFound);
 
 // -----------------------------------------------------

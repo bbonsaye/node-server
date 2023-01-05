@@ -24,6 +24,7 @@
 		"livereload": "^0.9.3",
 		"mongoose": "^6.8.2",
 		"npm-check-updates": "^16.6.2",
+		"serve-favicon": "^2.5.0",
 		"validator": "^13.7.0"
 	},
 	"type": "module"

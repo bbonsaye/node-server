@@ -4,7 +4,7 @@ export default function errorLogger(error, req, res, next) {
 
 	if (process.env.NODE_ENV === "development") {
 		console.log("development logs:");
-		console.log(error);
+		// console.log(error);
 	}
 	//
 	else if (process.env.NODE_ENV === "production") {
