@@ -30,12 +30,7 @@ import smoothieRoutes from "./src/routes/smoothieRoutes.js";
 
 // -----------------------------------------------------
 // error handling middleware imports
-import {
-	errorLogger,
-	handleLoginErrors,
-	handleSignupErrors,
-	errorResponder,
-} from "./src/utils/middleware/errorHandlingMiddleware/index.js";
+import { errorLogger, errorResponder } from "./src/utils/middleware/errorHandlingMiddleware/index.js";
 
 // -----------------------------------------------------
 // hot module reload for browser
@@ -103,6 +98,4 @@ app.use(pageNotFound);
 // error handling middleware
 
 app.use(errorLogger);
-app.use(handleLoginErrors);
-app.use(handleSignupErrors);
 app.use(errorResponder);
