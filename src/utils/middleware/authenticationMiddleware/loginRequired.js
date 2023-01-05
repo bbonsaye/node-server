@@ -8,6 +8,7 @@ export default function loginRequired(req, res, next) {
 			//
 			if (error) {
 				console.log(error.message);
+
 				// the query is so that the user can be redirected to the /smoothies page
 				res.redirect(`/login?returnTo=${req.url}`);
 			} //

@@ -1,4 +1,4 @@
-import isUserLoggedIn from "./isUserLoggedInMiddleware.js";
-import loginRequired from "./loginRequiredMiddleware.js";
+import isUserLoggedIn from "./isUserLoggedIn.js";
+import loginRequired from "./loginRequired.js";
 
 export { isUserLoggedIn, loginRequired };

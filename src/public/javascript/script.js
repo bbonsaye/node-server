@@ -1,19 +1,20 @@
 import validator from "../es/index.js";
+console.log(validator);
 
 const form = document.querySelector("#login") || document.querySelector("#signup");
 const emailError = document.querySelector(".error.email");
 const passwordError = document.querySelector(".error.password");
 
-form.addEventListener("submit", async (event) => {
+form?.addEventListener("submit", async (event) => {
 	event.preventDefault();
 
 	// input field values
 	const email = event.target.email.value;
 	const password = event.target.password.value;
+	const returnTo = event.target.returnTo?.value;
 
 	if (form.id === "login") {
 		console.log("LOGIN RESPONSE:");
-		const returnTo = event.target.returnTo.value;
 
 		try {
 			const res = await fetch("/login", {

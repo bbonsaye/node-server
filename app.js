@@ -6,7 +6,9 @@
 
 // process.env variables
 import * as dotenv from "dotenv";
-dotenv.config();
+process.env.NODE_ENV
+	? dotenv.config({ path: `./environment/.env.${process.env.NODE_ENV}` })
+	: dotenv.config({ path: `./environment/.env` });
 
 import express from "express";
 
@@ -29,7 +31,7 @@ import smoothieRoutes from "./src/routes/smoothieRoutes.js";
 // -----------------------------------------------------
 // middleware imports
 import { isUserLoggedIn } from "./src/utils/middleware/authenticationMiddleware/index.js";
-import handleErrors from "./src/utils/middleware/errorHandlingMiddleware/handleErrors.js";
+import { handleErrors } from "./src/utils/middleware/errorHandlingMiddleware/index.js";
 //
 // -----------------------------------------------------
 // hot module reload for browser

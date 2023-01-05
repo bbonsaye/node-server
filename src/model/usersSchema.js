@@ -30,7 +30,9 @@ const userSchema = new mySchema(
 
 // pre: fire a callback function before a document(user in this example) is saved to the database
 userSchema.pre("save", async function (next) {
-	console.log("Mongoose 'PRE SAVE' hook: hashing password prior to saving to Mongo DB");
+	console.log(
+		"Mongoose 'PRE SAVE' hook: hashing password prior to saving to Mongo DB"
+	);
 
 	const salt = await bcrypt.genSalt();
 	this.password = await bcrypt.hash(this.password, salt);

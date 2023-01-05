@@ -4,8 +4,9 @@
 	"description": "",
 	"main": "app.js",
 	"scripts": {
-		"start": "node app.js",
-		"start:dev": "nodemon app.js --ext *",
+		"start": "nodemon app.js --ext *",
+		"start:dev": "cross-env NODE_ENV=development nodemon app.js --ext *",
+		"start:pro": "cross-env NODE_ENV=production nodemon app.js --ext *",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [],
@@ -15,6 +16,7 @@
 		"bcrypt": "^5.1.0",
 		"connect-livereload": "^0.6.1",
 		"cookie-parser": "^1.4.6",
+		"cross-env": "^7.0.3",
 		"dotenv": "^16.0.3",
 		"express": "^4.18.2",
 		"express-handlebars": "^6.0.6",
