@@ -39,7 +39,6 @@ userSchema.pre("save", async function (next) {
 
 	next();
 });
-
 // post: fire a callback function after a document(user in this example) is saved to the database
 // first argument is the event. So, after a "save" event occurs. After a new document is saved to the database
 // second argument is is a callback function which is given two two arguments, the document saved and next. Which needs to be called.

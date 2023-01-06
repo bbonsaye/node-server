@@ -1,14 +1,14 @@
 // Different ways to write a tryCatch HOF function.
 // Method 1
-function catchAsyncErrors(fn) {
+function catchAsyncErrors(controller) {
 	return function inner(req, res, next) {
-		Promise.resolve(fn(req, res, next)).catch(next);
+		Promise.resolve(controller(req, res, next)).catch(next);
 	};
 }
 
 // Method 2
-// const catchAsyncErrors = (fn) => (req, res, next) => {
-// 	Promise.resolve(fn(req, res, next)).catch(next);
+// const catchAsyncErrors = (controller) => (req, res, next) => {
+// 	Promise.resolve(controller(req, res, next)).catch(next);
 // };
 
 // Method 3

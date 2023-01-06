@@ -1,8 +1,15 @@
-// TODO: put all errors in one place. Does it make sense to
-// take out the errors for the UserSchema and put them in handleErrors.js?
-
 // TODO: ass client-side form validation because it's a good UI practice.
 // -----------------------------------------------------
+
+// // process errors
+// process.on("uncaughtException", (error) => {
+// 	console.log("within uncaughtException");
+// 	console.log(error.name);
+// });
+// process.on("unhandledRejection", (error) => {
+// 	console.log("within unhandledRejection");
+// 	console.log(error.name);
+// });
 
 // process.env variables
 import * as dotenv from "dotenv";
@@ -100,9 +107,6 @@ app.use("*", isUserLoggedIn);
 app.use(homePageRoute);
 app.use(smoothieRoutes);
 app.use(authRoutes);
-app.use("*", (req, res, next) => {
-	console.log(names);
-});
 app.use(pageNotFound);
 
 // -----------------------------------------------------
@@ -110,3 +114,18 @@ app.use(pageNotFound);
 
 app.use(errorLogger);
 app.use(errorResponder);
+
+// process errors
+// process
+// 	.on("unhandledRejection", (error) => {
+// 		console.log("--------------------");
+// 		console.log("within unhandledRejection");
+// 		console.log(error.name);
+// 		console.log(error.message);
+// 	})
+// 	.on("uncaughtException", (error) => {
+// 		console.log("--------------------");
+// 		console.log("within uncaughtException");
+// 		console.log(error.name);
+// 		console.log(error.message);
+// 	});
