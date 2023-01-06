@@ -9,7 +9,7 @@ const userSchema = new mySchema(
 	{
 		email: {
 			type: String,
-			required: [true, "Please enter an email"],
+			required: [true, "Please enter an email."],
 			unique: true,
 			lowercase: true,
 			validate: [isEmail, "Please enter a valid email address."],
@@ -50,19 +50,24 @@ userSchema.post("save", function (document, next) {
 });
 
 userSchema.statics.login = async function (email, password) {
-	const user = await User.findOne({ email }).lean();
+	if (email) {
+		const user = await User.findOne({ email }).lean();
 
-	if (user) {
-		const passwordIsCorrect = await bcrypt.compare(password, user.password);
-		if (passwordIsCorrect) {
-			console.log("Successfully logged in");
-			return user;
+		if (user) {
+			if (password.length >= 6) {
+				const passwordIsCorrect = await bcrypt.compare(password, user.password);
+				if (passwordIsCorrect) {
+					console.log("Successfully logged in");
+					return user;
+				}
+				console.log("Within userSchema password");
+				throw new LoginError({ password: "The password is incorrect." });
+			}
+			throw new LoginError({ password: "Minimum password length is 6 characters." });
 		}
-		console.log("Within userSchema password");
-		throw new LoginError({ password: "The password is incorrect." });
+		throw new LoginError({ email: "That email isn't registered." });
 	}
-	console.log("Within userSchema email");
-	throw new LoginError({ email: "That email isn't registered." });
+	throw new LoginError({ email: "Please enter an email." });
 };
 
 // -----------------------------------------------------------
