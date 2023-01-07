@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import isEmail from "validator/lib/isEmail.js";
 import bcrypt from "bcrypt";
-import { LoginError } from "../utils/middleware/errorHandlingMiddleware/index.js";
+import { LoginError, SignupError } from "../utils/middleware/errorHandlingMiddleware/index.js";
 
 class mySchema extends mongoose.Schema {}
 
