@@ -22,4 +22,7 @@ function catchAsyncErrors(controller) {
 // 	};
 // }
 
+// Method 4
+// Download express-async-errors and import it
+
 export default catchAsyncErrors;
