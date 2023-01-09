@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "nodemon app.js --ext *",
 		"start:dev": "cross-env NODE_ENV=development nodemon app.js --ext *",
-		"start:pro": "cross-env NODE_ENV=production nodemon app.js --ext *",
+		"start:prod": "cross-env NODE_ENV=production nodemon app.js --ext *",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [],
@@ -23,9 +23,11 @@
 		"jsonwebtoken": "^9.0.0",
 		"livereload": "^0.9.3",
 		"mongoose": "^6.8.2",
+		"morgan": "^1.10.0",
 		"npm-check-updates": "^16.6.2",
 		"serve-favicon": "^2.5.0",
-		"validator": "^13.7.0"
+		"validator": "^13.7.0",
+		"winston": "^3.8.2"
 	},
 	"type": "module"
 }

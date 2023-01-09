@@ -13,6 +13,8 @@
 
 // process.env variables
 import * as dotenv from "dotenv";
+dotenv.config({ path: `./environment/.env` });
+
 process.env.NODE_ENV
 	? dotenv.config({ path: `./environment/.env.${process.env.NODE_ENV}` })
 	: dotenv.config({ path: `./environment/.env` });
@@ -21,6 +23,8 @@ import express from "express";
 import { engine } from "express-handlebars";
 import mongoose from "mongoose";
 
+// logger imports
+import { logger } from "./src/logger/logger.js";
 // -----------------------------------------------------
 // middleware imports
 import livereload from "livereload";
@@ -80,6 +84,17 @@ mongoose
 	.catch((err) => {
 		console.log(err);
 	});
+
+// console.log({ level: "error", message: new Error("FIRST test error") });
+logger.error("error info", { meta: 1 });
+logger.warn("warn info");
+logger.info("info info");
+logger.http("http info");
+logger.verbose("verbose info");
+logger.debug("debug info");
+logger.silly("silly info");
+
+// logger.error(new Error("something went wrong"));
 
 // -----------------------------------------------------
 // middleware usage
