@@ -70,6 +70,7 @@ const productionLogFormat = combine(timestamp(), json());
 const rotateConfig = {
 	dirname: dirName,
 	extension: ".log",
+
 	// will archive deleted log files
 	zippedArchive: true,
 
