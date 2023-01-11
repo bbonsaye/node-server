@@ -1,4 +1,0 @@
-{"level":"error","message":"erroring log message","timestamp":"2023-01-11T03:49:36.652Z"}
-{"level":"warn","message":"warning log message","timestamp":"2023-01-11T03:49:36.656Z"}
-{"level":"info","message":"information log message","timestamp":"2023-01-11T03:49:36.656Z"}
-{"level":"http","message":"HypterText Transfer Protocol log message","timestamp":"2023-01-11T03:49:36.657Z"}

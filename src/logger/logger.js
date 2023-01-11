@@ -5,6 +5,7 @@ process.env.NODE_ENV
 	: dotenv.config({ path: `./environment/.env` });
 
 import winston from "winston";
+import "winston-daily-rotate-file";
 const { json, timestamp, combine } = winston.format;
 
 import morgan, { format } from "morgan";
@@ -17,22 +18,24 @@ import morgan, { format } from "morgan";
 // file names
 // ---------------------------------------------------------------
 
+const dirName = "./src/logger/logs";
+
 const fileNames = {
-	error: "./src/logger/logs/errors.json",
-	errorsReadable: "./src/logger/logs/errorsReadable.log",
+	error: "errors",
+	errorsReadable: "errorsReadable",
 
-	warn: "./src/logger/logs/warnings.json",
-	warnReadable: "./src/logger/logs/warnReadable.log",
+	warn: "warnings",
+	warnReadable: "warnReadable",
 
-	combined: "./src/logger/logs/combined.json",
-	combinedReadable: "./src/logger/logs/combinedReadable.log",
+	combined: "combined",
+	combinedReadable: "combinedReadable",
 
-	exception: "./src/logger/logs/exceptions.json",
-	exceptionReadable: "./src/logger/logs/exceptionReadable.log",
+	exception: "exceptions",
+	exceptionReadable: "exceptionReadable",
 
 	// handleExceptions and handleRejections, seem to be handling all thrown errors?
-	// rejection: "./src/logger/logs/rejections.json",
-	// rejectionReadable: "./src/logger/logs/rejectionReadable.log",
+	// rejection: "rejections",
+	// rejectionReadable: "rejectionReadable",
 };
 
 // ---------------------------------------------------------------
@@ -62,26 +65,51 @@ const developmentLogFormat = combine(
 const productionLogFormat = combine(timestamp(), json());
 
 // ---------------------------------------------------------------
-// transports
+// DailyRotateFile Configuration
+// ---------------------------------------------------------------
+const rotateConfig = {
+	dirname: dirName,
+	extension: ".log",
+	// will archive deleted log files
+	zippedArchive: true,
+
+	// logs will be separated by the minute if
+	// datePattern: "YYYY-MM-DD-HHmm",
+	datePattern: "YYYY-MM-DD",
+
+	// will rotate if file size reaches 30 megabytes or 30 days have passed
+	maxSize: "30m",
+	maxFiles: "30d",
+};
+
+const rotateJsonConfig = {
+	...rotateConfig,
+	// "extension" overrides the one set in "const DailyRotateFileConfig"
+	extension: ".json",
+};
+
+// ---------------------------------------------------------------
+// Transports
 // ---------------------------------------------------------------
 const transports = [
-	new winston.transports.File({ filename: fileNames.error, format: combine(errorFilter(), json()) }),
-	new winston.transports.File({ filename: fileNames.errorsReadable, format: errorFilter() }),
+	new winston.transports.DailyRotateFile({ filename: fileNames.errorsReadable, format: errorFilter(), ...rotateConfig }),
+	new winston.transports.DailyRotateFile({ filename: fileNames.error, format: combine(errorFilter(), json()), ...rotateJsonConfig }),
 
-	new winston.transports.File({ filename: fileNames.warn, format: combine(warnFilter(), json()) }),
-	new winston.transports.File({ filename: fileNames.warnReadable, format: warnFilter() }),
+	new winston.transports.DailyRotateFile({ filename: fileNames.warnReadable, format: warnFilter(), ...rotateConfig }),
+	new winston.transports.DailyRotateFile({ filename: fileNames.warn, format: combine(warnFilter(), json()), ...rotateJsonConfig }),
 
 	// level: "debug", because I want debug level information no matter what NODE_ENV application is running in
-	new winston.transports.File({ filename: fileNames.combined, level: "debug", format: json() }),
-	new winston.transports.File({ filename: fileNames.combinedReadable, level: "debug" }),
+	new winston.transports.DailyRotateFile({ filename: fileNames.combinedReadable, level: "debug", ...rotateConfig }),
+	new winston.transports.DailyRotateFile({ filename: fileNames.combined, level: "debug", format: json(), ...rotateJsonConfig }),
 ];
 
 const exceptionHandlers = [
 	// the specified format: json(), isn't working, both files get logged in "readableLogFormat"
-	// new winston.transports.File({ filename: fileNames.exception, format: json() }),
-	new winston.transports.File({ filename: fileNames.exceptionReadable }),
+	new winston.transports.DailyRotateFile({ filename: fileNames.exceptionReadable, ...rotateConfig }),
+	// new winston.transports.DailyRotateFile({filename: fileNames.exception, ...rotateJsonConfig }),
 ];
-// const rejectionHandlers = [new winston.transports.File({ filename: fileNames.rejection })];
+// const rejectionHandlers = [new winston.transports.DailyRotateFile({filename: fileNames.rejection, ...rotateConfig })];
+// const rejectionHandlers = [new winston.transports.DailyRotateFile({filename: fileNames.rejectionReadable, ...rotateJsonConfig  })];
 
 // ---------------------------------------------------------------
 // logger instance

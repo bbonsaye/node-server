@@ -1,0 +1,14 @@
+2023-01-11T19:47:28.439Z ERROR erroring log message
+
+2023-01-11T19:47:28.442Z WARN warning log message
+
+2023-01-11T19:47:28.442Z INFO information log message
+
+2023-01-11T19:48:33.393Z ERROR erroring log message
+
+2023-01-11T19:48:33.397Z WARN warning log message
+
+2023-01-11T19:48:33.397Z INFO information log message
+
+{"level":"error","message":"erroring log message","timestamp":"2023-01-11T20:25:51.860Z"}
+{"level":"error","message":"erroring log message","timestamp":"2023-01-11T20:26:49.081Z"}

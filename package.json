@@ -27,7 +27,8 @@
 		"npm-check-updates": "^16.6.2",
 		"serve-favicon": "^2.5.0",
 		"validator": "^13.7.0",
-		"winston": "^3.8.2"
+		"winston": "^3.8.2",
+		"winston-daily-rotate-file": "^4.7.1"
 	},
 	"type": "module"
 }
