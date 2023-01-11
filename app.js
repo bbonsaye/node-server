@@ -24,7 +24,7 @@ import { engine } from "express-handlebars";
 import mongoose from "mongoose";
 
 // logger imports
-import { logger } from "./src/logger/logger.js";
+// import { logger } from "./src/logger/logger.js";
 // -----------------------------------------------------
 // middleware imports
 import livereload from "livereload";
@@ -85,17 +85,6 @@ mongoose
 		console.log(err);
 	});
 
-// console.log({ level: "error", message: new Error("FIRST test error") });
-logger.error("error info", { meta: 1 });
-logger.warn("warn info");
-logger.info("info info");
-logger.http("http info");
-logger.verbose("verbose info");
-logger.debug("debug info");
-logger.silly("silly info");
-
-// logger.error(new Error("something went wrong"));
-
 // -----------------------------------------------------
 // middleware usage
 
@@ -131,16 +120,23 @@ app.use(errorLogger);
 app.use(errorResponder);
 
 // process errors
-// process
-// 	.on("unhandledRejection", (error) => {
-// 		console.log("--------------------");
-// 		console.log("within unhandledRejection");
-// 		console.log(error.name);
-// 		console.log(error.message);
-// 	})
-// 	.on("uncaughtException", (error) => {
-// 		console.log("--------------------");
-// 		console.log("within uncaughtException");
-// 		console.log(error.name);
-// 		console.log(error.message);
-// 	});
+process
+	.on("unhandledRejection", (error) => {
+		console.log("--------------------");
+		console.log("within unhandledRejection");
+		console.log(error.name);
+		console.log(error.message);
+	})
+	.on("uncaughtException", (error) => {
+		console.log("--------------------");
+		console.log("within uncaughtException");
+		console.log(error.name);
+		console.log(error.message);
+	});
+
+// unhandled rejection example
+// throws error after a little bit of waiting
+fetch("https://youtube2222.com");
+
+// throws uncaughtException
+throw new Error("where does this end up");
