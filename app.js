@@ -31,7 +31,7 @@ import mongoose from "mongoose";
 // -----------------------------------------------------
 // logger imports
 // -----------------------------------------------------
-import { logger } from "./src/logger/logger.js";
+// import { logger } from "./src/logger/logger.js";
 
 // -----------------------------------------------------
 // middleware imports
@@ -53,7 +53,10 @@ import smoothieRoutes from "./src/routes/smoothieRoutes.js";
 // -----------------------------------------------------
 // error handling middleware imports
 // -----------------------------------------------------
-import { errorLogger, errorResponder } from "./src/utils/middleware/errorHandlingMiddleware/index.js";
+import {
+	errorLogger,
+	errorResponder,
+} from "./src/utils/middleware/errorHandlingMiddleware/index.js";
 
 // -----------------------------------------------------
 // hot module reload for browser
@@ -114,7 +117,7 @@ app.use(express.json());
 app.use(favicon("src/public/images/favicon.png"));
 
 app.use(cookieParser());
-app.use("*", isUserLoggedIn);
+app.use(isUserLoggedIn);
 
 // -----------------------------------------------------
 // routes;
@@ -135,11 +138,11 @@ app.use(errorResponder);
 // -----------------------------------------------------
 // Winston treats "unhandledRejection" and  "uncaughtException" as uncaughtException errors. Therefore,
 // "unhandledRejection" is implemented below on process global object and "uncaughtException" on Winston transport
-process.on("unhandledRejection", (error) => {
-	console.log("--------------------");
-	console.log("within unhandledRejection");
-	console.log(error);
-	process.exit(1);
-});
+// process.on("unhandledRejection", (error) => {
+// 	console.log("--------------------");
+// 	console.log("within unhandledRejection");
+// 	console.log(error);
+// 	process.exit(1);
+// });
 
 //  process.on("uncaughtException"){} is at the top of the file

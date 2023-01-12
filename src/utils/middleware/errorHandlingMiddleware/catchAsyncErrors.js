@@ -1,3 +1,6 @@
+// keeping this around just incase Express 5.0 breaks but "catchAsyncErrors" utility function is no longer needed.
+// As errors from asynchronous code are automatically passed to the next() function -> next(error)
+
 // Different ways to write a tryCatch HOF function.
 // Method 1
 function catchAsyncErrors(controller) {

@@ -1,7 +1,6 @@
 import User from "../../../model/usersSchema.js";
 import jwt from "jsonwebtoken";
 
-fetch("https://doesNotExistWebsite.com");
 export default function isUserLoggedIn(req, res, next) {
 	const jsonWebToken = req.cookies.jwt;
 

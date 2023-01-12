@@ -6,6 +6,7 @@ process.env.NODE_ENV
 
 import winston from "winston";
 import "winston-daily-rotate-file";
+
 const { json, timestamp, combine } = winston.format;
 
 import morgan, { format } from "morgan";
@@ -34,8 +35,8 @@ const fileNames = {
 	exceptionReadable: "exceptionReadable",
 
 	// handleExceptions and handleRejections, seem to be handling all thrown errors?
-	// rejection: "rejections",
-	// rejectionReadable: "rejectionReadable",
+	rejection: "rejections",
+	rejectionReadable: "rejectionReadable",
 };
 
 // ---------------------------------------------------------------
@@ -52,9 +53,11 @@ const warnFilter = winston.format((loggedMsg) => {
 // ---------------------------------------------------------------
 // logging formats
 // ---------------------------------------------------------------
-const readableLogFormat = winston.format.printf(({ timestamp, level, message, stack }) => {
-	return `${timestamp} ${level.toUpperCase()} ${stack || message}\n`;
-});
+const readableLogFormat = winston.format.printf(
+	({ timestamp, level, message, stack }) => {
+		return `${timestamp} ${level.toUpperCase()} ${stack || message}\n`;
+	}
+);
 
 const developmentLogFormat = combine(
 	// when using winston.format.cli() timestamp doesn't show up
@@ -93,24 +96,57 @@ const rotateJsonConfig = {
 // Transports
 // ---------------------------------------------------------------
 const transports = [
-	new winston.transports.DailyRotateFile({ filename: fileNames.errorsReadable, format: errorFilter(), ...rotateConfig }),
-	new winston.transports.DailyRotateFile({ filename: fileNames.error, format: combine(errorFilter(), json()), ...rotateJsonConfig }),
+	new winston.transports.DailyRotateFile({
+		filename: fileNames.errorsReadable,
+		format: errorFilter(),
+		...rotateConfig,
+	}),
+	new winston.transports.DailyRotateFile({
+		filename: fileNames.error,
+		format: combine(errorFilter(), json()),
+		...rotateJsonConfig,
+	}),
 
-	new winston.transports.DailyRotateFile({ filename: fileNames.warnReadable, format: warnFilter(), ...rotateConfig }),
-	new winston.transports.DailyRotateFile({ filename: fileNames.warn, format: combine(warnFilter(), json()), ...rotateJsonConfig }),
+	new winston.transports.DailyRotateFile({
+		filename: fileNames.warnReadable,
+		format: warnFilter(),
+		...rotateConfig,
+	}),
+	new winston.transports.DailyRotateFile({
+		filename: fileNames.warn,
+		format: combine(warnFilter(), json()),
+		...rotateJsonConfig,
+	}),
 
 	// level: "debug", because I want debug level information no matter what NODE_ENV application is running in
-	new winston.transports.DailyRotateFile({ filename: fileNames.combinedReadable, level: "debug", ...rotateConfig }),
-	new winston.transports.DailyRotateFile({ filename: fileNames.combined, level: "debug", format: json(), ...rotateJsonConfig }),
+	new winston.transports.DailyRotateFile({
+		filename: fileNames.combinedReadable,
+		level: "debug",
+		...rotateConfig,
+	}),
+	new winston.transports.DailyRotateFile({
+		filename: fileNames.combined,
+		level: "debug",
+		format: json(),
+		...rotateJsonConfig,
+	}),
 ];
 
 const exceptionHandlers = [
 	// the specified format: json(), isn't working, both files get logged in "readableLogFormat"
-	new winston.transports.DailyRotateFile({ filename: fileNames.exceptionReadable, ...rotateConfig }),
-	// new winston.transports.DailyRotateFile({filename: fileNames.exception, ...rotateJsonConfig }),
+	new winston.transports.DailyRotateFile({
+		filename: fileNames.exceptionReadable,
+		...rotateConfig,
+	}),
+	// new winston.transports.DailyRotateFile({ filename: fileNames.exception, ...rotateJsonConfig }),
 ];
-// const rejectionHandlers = [new winston.transports.DailyRotateFile({filename: fileNames.rejection, ...rotateConfig })];
-// const rejectionHandlers = [new winston.transports.DailyRotateFile({filename: fileNames.rejectionReadable, ...rotateJsonConfig  })];
+const rejectionHandlers = [
+	new winston.transports.DailyRotateFile({
+		filename: fileNames.rejectionReadable,
+		...rotateConfig,
+	}),
+	// new winston.transports.DailyRotateFile({ filename: fileNames.rejection, ...rotateJsonConfig }),
+];
 
 // ---------------------------------------------------------------
 // logger instance
@@ -121,13 +157,24 @@ const logger = winston.createLogger({
 
 	// by default, the logging format is Production just incase "NODE_ENV=development, testing" is not passed in
 	// winston.format.errors({ stack: true } having it or not doesn't seem to change the error output, however, it's recommended to include that
-	format: combine(winston.format.errors({ stack: true }), timestamp(), readableLogFormat),
+	format: combine(
+		winston.format.errors({ stack: true }),
+		timestamp(),
+		readableLogFormat
+	),
 
 	// defaultMeta: { service: "" },
+
+	// transports, exceptionHandlers, and rejectionHandlers is what tells the logger what files to write to.
+	// These do not create the files. The files were created within the transport
+	// definitions above under "Transports"
 	transports: transports,
 	exceptionHandlers: exceptionHandlers,
-	// handleExceptions and handleRejections, seem to be handling all thrown errors?
-	// rejectionHandlers: rejectionHandlers,
+	rejectionHandlers: rejectionHandlers,
+
+	// By default, winston will exit after logging an uncaughtException. This option prevents exiting.
+	// if there is any asynchronous code in the Nodejs queues, after executing that code, it will exit.
+	exitOnError: false,
 });
 
 // ---------------------------------------------------------------
@@ -137,9 +184,10 @@ if (process.env.NODE_ENV !== "production") {
 	logger.add(
 		new winston.transports.Console({
 			format: developmentLogFormat,
+
+			// handleExceptions and, handleRejections are for the error to be output in the Console transport
 			handleExceptions: true,
-			//  handleExceptions and handleRejections, seem to be handling all thrown errors?
-			// handleRejections: true,
+			handleRejections: true,
 		})
 	);
 }
@@ -149,8 +197,12 @@ logger.warn("warning log message");
 logger.info("information log message");
 logger.http("HypterText Transfer Protocol log message");
 console.log(process.env.NODE_ENV);
-// console.log(undefinedVariable);
+fetch("https://websiteDoe22222sNotExist.com");
 
+setTimeout(() => {
+	console.log(undefinedVariable);
+}, 25000);
+console.log(undefinedVariable);
 // throw new Error("something went wrong");
 // logger event listeners
 
