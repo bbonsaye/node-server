@@ -1,0 +1,53 @@
+2023-01-12T01:30:15.239Z ERROR ReferenceError: undefinedVariable is not defined
+    at file:///C:/Users/o0/source/projects/netNinja/authentication/src/logger/logger.js:152:13
+    at ModuleJob.run (node:internal/modules/esm/module_job:194:25)
+
+2023-01-12T01:36:29.899Z ERROR ReferenceError: undefinedVariable is not defined
+    at file:///C:/Users/o0/source/projects/netNinja/authentication/src/logger/logger.js:152:13
+    at ModuleJob.run (node:internal/modules/esm/module_job:194:25)
+
+2023-01-12T01:38:12.139Z ERROR ReferenceError: undefinedVariable is not defined
+    at file:///C:/Users/o0/source/projects/netNinja/authentication/src/logger/logger.js:152:13
+    at ModuleJob.run (node:internal/modules/esm/module_job:194:25)
+
+2023-01-12T01:38:19.236Z ERROR ReferenceError: undefinedVariable is not defined
+    at file:///C:/Users/o0/source/projects/netNinja/authentication/app.js:20:13
+    at ModuleJob.run (node:internal/modules/esm/module_job:194:25)
+
+2023-01-12T01:38:31.986Z ERROR ReferenceError: haha is not defined
+    at file:///C:/Users/o0/source/projects/netNinja/authentication/app.js:20:13
+    at ModuleJob.run (node:internal/modules/esm/module_job:194:25)
+
+2023-01-12T01:38:50.419Z ERROR ReferenceError: a is not defined
+    at file:///C:/Users/o0/source/projects/netNinja/authentication/src/utils/middleware/authenticationMiddleware/isUserLoggedIn.js:4:13
+    at ModuleJob.run (node:internal/modules/esm/module_job:194:25)
+
+2023-01-12T01:43:50.197Z ERROR ReferenceError: a is not defined
+    at file:///C:/Users/o0/source/projects/netNinja/authentication/src/utils/middleware/authenticationMiddleware/isUserLoggedIn.js:4:13
+    at ModuleJob.run (node:internal/modules/esm/module_job:194:25)
+
+2023-01-12T01:43:55.918Z ERROR ReferenceError: xxxx is not defined
+    at file:///C:/Users/o0/source/projects/netNinja/authentication/src/utils/middleware/authenticationMiddleware/isUserLoggedIn.js:4:13
+    at ModuleJob.run (node:internal/modules/esm/module_job:194:25)
+
+2023-01-12T01:44:08.264Z ERROR ReferenceError: xxxxxxxxxxxxxxxxx is not defined
+    at Timeout._onTimeout (file:///C:/Users/o0/source/projects/netNinja/authentication/src/utils/middleware/authenticationMiddleware/isUserLoggedIn.js:5:14)
+    at listOnTimeout (node:internal/timers:564:17)
+    at process.processTimers (node:internal/timers:507:7)
+
+2023-01-12T01:45:48.230Z ERROR TypeError: fetch failed
+    at Object.fetch (node:internal/deps/undici/undici:14294:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+2023-01-12T01:45:48.232Z ERROR TypeError: fetch failed
+    at Object.fetch (node:internal/deps/undici/undici:14294:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+2023-01-12T01:46:08.319Z ERROR TypeError: fetch failed
+    at Object.fetch (node:internal/deps/undici/undici:14294:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+2023-01-12T01:46:08.329Z ERROR TypeError: fetch failed
+    at Object.fetch (node:internal/deps/undici/undici:14294:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+

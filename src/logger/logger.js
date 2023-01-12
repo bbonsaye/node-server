@@ -149,7 +149,7 @@ logger.warn("warning log message");
 logger.info("information log message");
 logger.http("HypterText Transfer Protocol log message");
 console.log(process.env.NODE_ENV);
-console.log(undefinedVariable);
+// console.log(undefinedVariable);
 
 // throw new Error("something went wrong");
 // logger event listeners
