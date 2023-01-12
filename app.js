@@ -13,16 +13,6 @@ process.env.NODE_ENV
 // -----------------------------------------------------
 // process error handling
 // -----------------------------------------------------
-// "uncaughtException" doesn't handle synchronous errors thrown from imported modules. Therefore,
-// "uncaughtException" errors are being handled by Winston, which, is able to handle synchronous code thrown
-// from imported files.
-
-// process.on("uncaughtException", (error) => {
-// 	console.log("--------------------");
-// 	console.log("within uncaughtException");
-// 	console.log(error);
-// 	process.exit(1);
-// });
 
 import express from "express";
 import { engine } from "express-handlebars";
@@ -136,13 +126,3 @@ app.use(errorResponder);
 // -----------------------------------------------------
 // process error handling
 // -----------------------------------------------------
-// Winston treats "unhandledRejection" and  "uncaughtException" as uncaughtException errors. Therefore,
-// "unhandledRejection" is implemented below on process global object and "uncaughtException" on Winston transport
-// process.on("unhandledRejection", (error) => {
-// 	console.log("--------------------");
-// 	console.log("within unhandledRejection");
-// 	console.log(error);
-// 	process.exit(1);
-// });
-
-//  process.on("uncaughtException"){} is at the top of the file
