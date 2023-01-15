@@ -1,7 +1,14 @@
 import mongoose from "mongoose";
 import isEmail from "validator/lib/isEmail.js";
 import bcrypt from "bcrypt";
-import { LoginError, SignupError } from "../utils/middleware/errorHandlingMiddleware/index.js";
+import {
+	LoginError,
+	SignupError,
+} from "../utils/middleware/errorHandlingMiddleware/index.js";
+import {
+	containsLetter,
+	containsNumber,
+} from "../utils/mongooseValidators/passwordValidators/index.js";
 
 class mySchema extends mongoose.Schema {}
 
@@ -18,6 +25,16 @@ const userSchema = new mySchema(
 			type: String,
 			required: [true, "Please enter a password."],
 			minlength: [6, "Minimum password length is 6 characters."],
+			validate: [
+				{
+					validator: containsLetter,
+					msg: "Password must contain at least one alphabet letter",
+				},
+				{
+					validator: containsNumber,
+					msg: "Password must contain at least one number",
+				},
+			],
 		},
 	},
 	{
@@ -31,11 +48,13 @@ const userSchema = new mySchema(
 
 // pre: fire a callback function before a document(user in this example) is saved to the database
 userSchema.pre("save", async function (next) {
-	console.log("Mongoose 'PRE SAVE' hook: hashing password prior to saving to Mongo DB");
+	console.log(
+		"Mongoose 'PRE SAVE' hook: hashing password prior to saving to Mongo DB"
+	);
 
 	const salt = await bcrypt.genSalt();
 	this.password = await bcrypt.hash(this.password, salt);
-	console.log(this);
+	// console.log(this);
 
 	next();
 });
@@ -56,15 +75,19 @@ userSchema.statics.login = async function (email, password) {
 
 			if (user) {
 				if (password.length >= 6) {
-					const passwordIsCorrect = await bcrypt.compare(password, user.password);
+					const passwordIsCorrect = await bcrypt.compare(
+						password,
+						user.password
+					);
 					if (passwordIsCorrect) {
 						console.log("Successfully logged in");
 						return user;
 					}
-					console.log("Within userSchema password");
 					throw new LoginError({ password: "The password is incorrect." });
 				}
-				throw new LoginError({ password: "Minimum password length is 6 characters." });
+				throw new LoginError({
+					password: "Minimum password length is 6 characters.",
+				});
 			}
 			throw new LoginError({ email: "That email isn't registered." });
 		}

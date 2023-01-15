@@ -6,7 +6,7 @@ class AuthErrors extends Error {
 		this.statusCode = statusCode;
 
 		// the instance (LoginError or SignupError) and it's parent (AuthError) show up in the stack trace
-		Error.captureStackTrace(this);
+		// Error.captureStackTrace(this);
 	}
 
 	static badRequest(message) {

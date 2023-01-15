@@ -4,11 +4,11 @@
 // process.env variables
 // -----------------------------------------------------
 import * as dotenv from "dotenv";
-dotenv.config({ path: `./environment/.env` });
 
-process.env.NODE_ENV
-	? dotenv.config({ path: `./environment/.env.${process.env.NODE_ENV}` })
-	: dotenv.config({ path: `./environment/.env` });
+if (process.env.NODE_ENV) {
+	dotenv.config({ path: `./environment/.env.${process.env.NODE_ENV}` });
+}
+dotenv.config({ path: `./environment/.env` });
 
 // -----------------------------------------------------
 // process error handling
