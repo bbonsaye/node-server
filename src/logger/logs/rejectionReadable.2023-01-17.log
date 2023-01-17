@@ -1,0 +1,12 @@
+2023-01-17T18:17:45.249Z ERROR ReferenceError: connectToDb is not defined
+    at file:///C:/Users/o0/source/projects/netNinja/authentication/app.js:78:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:194:25)
+
+2023-01-17T18:29:53.577Z ERROR Error: Unable to connect to MongoDB
+    at file:///C:/Users/o0/source/projects/netNinja/authentication/src/database/mongoDb.js:14:11
+    at async file:///C:/Users/o0/source/projects/netNinja/authentication/app.js:78:1
+
+2023-01-17T18:30:14.152Z ERROR Error: Unable to connect to MongoDB
+    at file:///C:/Users/o0/source/projects/netNinja/authentication/src/database/mongoDb.js:14:11
+    at async file:///C:/Users/o0/source/projects/netNinja/authentication/app.js:78:1
+

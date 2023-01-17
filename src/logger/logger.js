@@ -4,6 +4,9 @@ process.env.NODE_ENV
 	? dotenv.config({ path: `./environment/.env.${process.env.NODE_ENV}` })
 	: dotenv.config({ path: `./environment/.env` });
 
+console.log(`\nEnvironment: ${process.env.NODE_ENV}`);
+console.log(`Log Level: ${process.env.LOG_LEVEL}\n`);
+
 import winston from "winston";
 import "winston-daily-rotate-file";
 
@@ -53,11 +56,9 @@ const warnFilter = winston.format((loggedMsg) => {
 // ---------------------------------------------------------------
 // logging formats
 // ---------------------------------------------------------------
-const readableLogFormat = winston.format.printf(
-	({ timestamp, level, message, stack }) => {
-		return `${timestamp} ${level.toUpperCase()} ${stack || message}\n`;
-	}
-);
+const readableLogFormat = winston.format.printf(({ timestamp, level, message, stack }) => {
+	return `${timestamp} ${level.toUpperCase()} ${stack || message}\n`;
+});
 
 const developmentLogFormat = combine(
 	// when using winston.format.cli() timestamp doesn't show up
@@ -118,15 +119,15 @@ const transports = [
 		...rotateJsonConfig,
 	}),
 
-	// level: "debug", because I want debug level information no matter what NODE_ENV application is running in
+	// level: "silly", because I want silly level information no matter what NODE_ENV is set to
 	new winston.transports.DailyRotateFile({
 		filename: fileNames.combinedReadable,
-		level: "debug",
+		level: "silly",
 		...rotateConfig,
 	}),
 	new winston.transports.DailyRotateFile({
 		filename: fileNames.combined,
-		level: "debug",
+		level: "silly",
 		format: json(),
 		...rotateJsonConfig,
 	}),
@@ -157,11 +158,7 @@ const logger = winston.createLogger({
 
 	// by default, the logging format is Production just incase "NODE_ENV=development, testing" is not passed in
 	// winston.format.errors({ stack: true } having it or not doesn't seem to change the error output, however, it's recommended to include that
-	format: combine(
-		winston.format.errors({ stack: true }),
-		timestamp(),
-		readableLogFormat
-	),
+	format: combine(winston.format.errors({ stack: true }), timestamp(), readableLogFormat),
 
 	// defaultMeta: { service: "" },
 
@@ -174,7 +171,7 @@ const logger = winston.createLogger({
 
 	// By default, winston will exit after logging an uncaughtException. This option prevents exiting.
 	// if there is any asynchronous code in the Nodejs queues, after executing that code, it will exit.
-	exitOnError: false,
+	// exitOnError: false,
 });
 
 // ---------------------------------------------------------------
@@ -196,13 +193,17 @@ logger.error("erroring log message");
 logger.warn("warning log message");
 logger.info("information log message");
 logger.http("HypterText Transfer Protocol log message");
-console.log(process.env.NODE_ENV);
-fetch("https://websiteDoe22222sNotExist.com");
+logger.verbose("verbose log message");
+logger.debug("debuglog message");
+logger.silly("silly message");
 
-setTimeout(() => {
-	console.log(undefinedVariable);
-}, 25000);
-console.log(undefinedVariable);
+// console.log(process.env.NODE_ENV);
+// fetch("https://websiteDoe22222sNotExist.com");
+
+// setTimeout(() => {
+// 	console.log(undefinedVariable);
+// }, 25000);
+// console.log(undefinedVariable);
 // throw new Error("something went wrong");
 // logger event listeners
 

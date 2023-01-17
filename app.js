@@ -5,10 +5,9 @@
 // -----------------------------------------------------
 import * as dotenv from "dotenv";
 
-if (process.env.NODE_ENV) {
-	dotenv.config({ path: `./environment/.env.${process.env.NODE_ENV}` });
-}
-dotenv.config({ path: `./environment/.env` });
+process.env.NODE_ENV
+	? dotenv.config({ path: `./environment/.env.${process.env.NODE_ENV}` })
+	: dotenv.config({ path: `./environment/.env` });
 
 // -----------------------------------------------------
 // process error handling
@@ -16,12 +15,11 @@ dotenv.config({ path: `./environment/.env` });
 
 import express from "express";
 import { engine } from "express-handlebars";
-import mongoose from "mongoose";
-
+import connectToDb from "./src/database/mongoDb.js";
 // -----------------------------------------------------
 // logger imports
 // -----------------------------------------------------
-// import { logger } from "./src/logger/logger.js";
+import { logger } from "./src/logger/logger.js";
 
 // -----------------------------------------------------
 // middleware imports
@@ -77,18 +75,10 @@ app.set("views", "src/views");
 // -----------------------------------------------------
 // database settings & app.listen()
 // -----------------------------------------------------
-mongoose
-	.set("strictQuery", true)
-	.connect(process.env.DB_HOST)
-	.then((result) => {
-		console.log("Connected to MongoDB.");
-		console.log("App URL: http://localhost:3000\n");
-		app.listen(process.env.PORT);
-	})
-	.catch((err) => {
-		console.log(err);
-	});
-
+await connectToDb();
+console.log("Connected to MongoDB.");
+app.listen(process.env.PORT);
+console.log("App URL: http://localhost:3000\n");
 // -----------------------------------------------------
 // middleware usage
 // -----------------------------------------------------
